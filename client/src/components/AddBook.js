@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
-import { useQuery, gql } from "@apollo/client";
 import { useFormik } from "formik";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  getBooksQuery,
+  getAuthorsQuery,
+  addBookMutation,
+  getBookQuery,
+} from "../queries/queries";
 import * as yup from "yup";
 
 import {
@@ -10,17 +16,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  NativeSelect,
 } from "@mui/material";
-
-const getAuthorsQuery = gql`
-  query getAuthors {
-    authors {
-      id
-      name
-    }
-  }
-`;
 
 const initialFormData = {
   name: "",
@@ -39,15 +35,27 @@ const validationSchema = yup.object({
     .required("Author is required"),
 });
 
-const handleFormSubmit = (values) => {
-console.log("🚀 ~ file: AddBook.js:43 ~ handleFormSubmit ~ values:", values)
-};
-
 const AddBook = () => {
-  const { loading, error, data } = useQuery(getAuthorsQuery);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const { loading, error, data, refetch } = useQuery(getAuthorsQuery);
+  const [addBookData] = useMutation(addBookMutation, {
+    onCompleted: () => {
+      refetch(); // Refetch the data after the mutation is completed
+    },
+  });
   const [authors, setAuthors] = useState([]);
-  
+
+  const handleFormSubmit = (values) => {
+    addBookData({
+      variables: {
+        name: values.name,
+        genre: values.genre,
+        authorId: values.authorId,
+      },
+      // refetchQueries: [{ query: getBooksQuery }, { query: getBookQuery  }],
+      refetchQueries: [{ query: getBooksQuery }],
+    });
+  };
+
   useEffect(() => {
     if (data) {
       setAuthors(data?.authors);
@@ -66,12 +74,14 @@ const AddBook = () => {
     isSubmitting,
     isValid,
     dirty,
+    resetForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialFormData,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       handleFormSubmit(values);
+      resetForm();
     },
     validateOnChange: true,
   });
@@ -116,16 +126,16 @@ const AddBook = () => {
           placeholder="Select Author"
           label="author"
           value={values.authorId}
-          // onChange={(_e, value) => {
-          //   setSelectedOptions(setFieldValue("authorId", value));
-          // }}
           onChange={handleChange}
         >
-          {authors && authors?.map((author) => {
-            return <MenuItem key={author.id} value={author.id}>
-              {author.name}
-            </MenuItem>;
-          })}
+          {authors &&
+            authors?.map((author) => {
+              return (
+                <MenuItem key={author.id} value={author.id}>
+                  {author.name}
+                </MenuItem>
+              );
+            })}
         </Select>
       </FormControl>
 
