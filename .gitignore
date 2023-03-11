@@ -38,6 +38,11 @@ node_modules
 
 # production
 /build
+/client/build
+/server/build
+/dist
+/client/dist
+/server/dist
 
 # misc
 .DS_Store
