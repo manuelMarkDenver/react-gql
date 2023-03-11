@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { getBooksQuery, getBookQuery } from "../queries/queries";
 import {
-  Divider,
   List,
   ListItem,
   ListItemText,
-  Stack,
   Typography,
 } from "@mui/material";
 import BookDetails from "./BookDetails";

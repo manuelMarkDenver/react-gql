@@ -1,4 +1,8 @@
 # Environment variables
+/client/.env.development
+/client/.env.production
+/server/.env.development
+/server/.env.production
 /client/.env
 /server/.env
 /env

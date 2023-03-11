@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 const getAuthorsQuery = gql`
   query getAuthors {
