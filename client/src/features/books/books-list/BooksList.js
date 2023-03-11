@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
-import { getBooksQuery, getBookQuery } from "../queries/queries";
+import { getBooksQuery, getBookQuery } from "../../../queries/queries";
 import {
   List,
   ListItem,
   ListItemText,
   Typography,
 } from "@mui/material";
-import BookDetails from "./BookDetails";
+import BookDetails from "../book-details/BookDetails";
 
-const BookList = () => {
+const BooksList = () => {
   const [books, setBooks] = useState([]);
   const [selectedBookId, setSelectedBookId] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -29,7 +29,6 @@ const BookList = () => {
       setFetchedAuthorBook(book?.book?.author?.books)
     }
   }, [fetchedAuthorBook, book])
-  console.log("🚀 ~ file: BookDetails.js:19 ~ BookDetails ~ fetchedBook:", fetchedAuthorBook)
   
   useEffect(() => {
     if (fetchedBooks) {
@@ -99,4 +98,4 @@ const BookList = () => {
   );
 };
 
-export default BookList;
+export default BooksList;

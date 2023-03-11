@@ -5,8 +5,7 @@ import {
   getBooksQuery,
   getAuthorsQuery,
   addBookMutation,
-  getBookQuery,
-} from "../queries/queries";
+} from "../../../queries/queries";
 import * as yup from "yup";
 
 import {
@@ -16,6 +15,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Container,
+  Paper,
 } from "@mui/material";
 
 const initialFormData = {
@@ -90,61 +91,65 @@ const AddBook = () => {
   if (error) return <p>Error : {error.message}</p>;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl fullWidth sx={{ marginBottom: "10px" }}>
-        <TextField
-          fullWidth
-          id="name"
-          name="name"
-          label="name"
-          value={values.name}
-          onChange={handleChange}
-          error={touched.name && Boolean(errors.name)}
-          helperText={touched.name && errors.name}
-        />
-      </FormControl>
+    <Container maxWidth="sm">
+      <Paper elevation={3} sx={{ padding: "20px" }}>
+        <form onSubmit={handleSubmit}>
+          <FormControl fullWidth sx={{ marginBottom: "10px" }}>
+            <TextField
+              fullWidth
+              id="name"
+              name="name"
+              label="name"
+              value={values.name}
+              onChange={handleChange}
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
+            />
+          </FormControl>
 
-      <FormControl fullWidth sx={{ marginBottom: "10px" }}>
-        <TextField
-          fullWidth
-          id="genre"
-          name="genre"
-          label="genre"
-          value={values.genre}
-          onChange={handleChange}
-          error={touched.genre && Boolean(errors.genre)}
-          helperText={touched.genre && errors.genre}
-        />
-      </FormControl>
+          <FormControl fullWidth sx={{ marginBottom: "10px" }}>
+            <TextField
+              fullWidth
+              id="genre"
+              name="genre"
+              label="genre"
+              value={values.genre}
+              onChange={handleChange}
+              error={touched.genre && Boolean(errors.genre)}
+              helperText={touched.genre && errors.genre}
+            />
+          </FormControl>
 
-      <FormControl fullWidth sx={{ marginBottom: "10px" }}>
-        <InputLabel id="demo-simple-select-label">Author</InputLabel>
-        <Select
-          labelId="demo-simple-NativeSelect-label"
-          id="authorId"
-          name="authorId"
-          placeholder="Select Author"
-          label="author"
-          value={values.authorId}
-          onChange={handleChange}
-        >
-          {authors &&
-            authors?.map((author) => {
-              return (
-                <MenuItem key={author.id} value={author.id}>
-                  {author.name}
-                </MenuItem>
-              );
-            })}
-        </Select>
-      </FormControl>
+          <FormControl fullWidth sx={{ marginBottom: "10px" }}>
+            <InputLabel id="demo-simple-select-label">Author</InputLabel>
+            <Select
+              labelId="demo-simple-NativeSelect-label"
+              id="authorId"
+              name="authorId"
+              placeholder="Select Author"
+              label="author"
+              value={values.authorId}
+              onChange={handleChange}
+            >
+              {authors &&
+                authors?.map((author) => {
+                  return (
+                    <MenuItem key={author.id} value={author.id}>
+                      {author.name}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </FormControl>
 
-      <FormControl fullWidth sx={{ marginBottom: "10px" }}>
-        <Button color="primary" variant="contained" fullWidth type="submit">
-          Add Book
-        </Button>
-      </FormControl>
-    </form>
+          <FormControl fullWidth sx={{ marginBottom: "10px" }}>
+            <Button color="primary" variant="contained" fullWidth type="submit">
+              Add Book
+            </Button>
+          </FormControl>
+        </form>
+      </Paper>
+    </Container>
   );
 };
 

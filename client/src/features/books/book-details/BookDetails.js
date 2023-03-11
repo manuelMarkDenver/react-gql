@@ -3,7 +3,6 @@ import { Box, Container, List, Typography } from "@mui/material";
 
 const BookDetails = (props) => {
   const { book, authorBooksList } = props;
-  console.log("🚀 ~ file: BookDetails.js:8 ~ BookDetails ~ fetchedAuthorBook:", authorBooksList)
 
   return (
     <Container>
